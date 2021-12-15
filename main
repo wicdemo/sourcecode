@@ -1,0 +1,41 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Activities;
+using Microsoft.Xrm.Sdk;
+using Microsoft.Xrm.Sdk.Query;
+using Microsoft.Xrm.Sdk.Workflow;
+
+namespace CWF3
+{
+    public class Retreive_cwf : CodeActivity
+    {
+
+
+        [Input("Lecturer")]
+        [RequiredArgument]
+        [ReferenceTarget("new_lecturer")]
+        public InArgument<EntityReference> lecturer { get; set; }
+
+        [Output("subject")]
+        public OutArgument<string> subject { get; set; }
+
+
+
+        protected override void Execute(CodeActivityContext context)
+        {
+            IWorkflowContext iwf = context.GetExtension<IWorkflowContext>();
+            IOrganizationServiceFactory iof = context.GetExtension<IOrganizationServiceFactory>();
+
+            Guid id = lecturer.Get(context).Id;
+
+            IOrganizationService ios = iof.CreateOrganizationService(iwf.UserId);
+            Entity en = ios.Retrieve("new_lecturer", id ,new ColumnSet("new_subject"));
+
+            this.subject.Set(context, en.GetAttributeValue<string>("new_subject"));
+
+        }
+    }
+}
