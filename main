@@ -33,6 +33,8 @@ namespace CWF3
 
             IOrganizationService ios = iof.CreateOrganizationService(iwf.UserId);
             Entity en = ios.Retrieve("new_lecturer", id ,new ColumnSet("new_subject"));
+            
+            ///mychange1
 
             this.subject.Set(context, en.GetAttributeValue<string>("new_subject"));
 
