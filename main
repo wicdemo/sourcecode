@@ -29,7 +29,7 @@ namespace CWF3
             IWorkflowContext iwf = context.GetExtension<IWorkflowContext>();
             IOrganizationServiceFactory iof = context.GetExtension<IOrganizationServiceFactory>();
 
-            Guid id = lecturer.Get(context).Id;
+          
 
             IOrganizationService ios = iof.CreateOrganizationService(iwf.UserId);
             Entity en = ios.Retrieve("new_lecturer", id ,new ColumnSet("new_subject"));
